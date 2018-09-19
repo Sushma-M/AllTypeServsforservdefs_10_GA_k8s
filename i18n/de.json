@@ -1,0 +1,14 @@
+{
+  "messages" : {
+    "Test" : "Deutsch",
+    "com.wavemaker.runtime.json$AccessDenied" : "sdsds",
+    "com.wavemaker.runtime.json$InvalidJsonObject" : "sdsd",
+    "com.wavemaker.runtime.json$MessageNotReadable" : "sdsds",
+    "com.wavemaker.runtime.json$UnexpectedError" : "sdsd",
+    "com.wavemaker.runtime.json$UnrecognizedField" : "dddsds"
+  },
+  "formats" : {
+    "date" : "yyyy-MM-dd",
+    "time" : "hh:mm a"
+  }
+}

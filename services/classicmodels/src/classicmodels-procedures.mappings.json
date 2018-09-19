@@ -1,0 +1,6 @@
+{
+  "EmployeeProcVar" : {
+    "procedureString" : "CALL allmyemps()",
+    "parameters" : [ ]
+  }
+}

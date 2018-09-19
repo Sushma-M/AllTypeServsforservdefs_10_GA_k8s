@@ -1,0 +1,84 @@
+{
+  "EmployeeProcVar" : {
+    "name" : "EmployeeProcVar",
+    "description" : "employee",
+    "version" : "V2",
+    "procedureString" : "CALL allmyemps()",
+    "parameters" : [ ],
+    "request" : {
+      "wrapped" : false,
+      "typeRef" : null,
+      "method" : "GET"
+    },
+    "response" : {
+      "typeRef" : "com.alltypeservsforservdefs_9_0_0_1.classicmodels.models.procedure.EmployeeProcVarResponse",
+      "returns" : "CUSTOM",
+      "responseType" : "SINGLE",
+      "properties" : [ {
+        "name" : "content",
+        "fieldName" : "content",
+        "optional" : false,
+        "fieldType" : {
+          "type" : "CUSTOM",
+          "typeRef" : "com.alltypeservsforservdefs_9_0_0_1.classicmodels.models.procedure.EmployeeProcVarResponseContent",
+          "list" : true,
+          "properties" : [ {
+            "name" : "employeeNumber",
+            "fieldName" : "employeeNumber",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.Integer",
+              "list" : false
+            }
+          }, {
+            "name" : "lastName",
+            "fieldName" : "lastName",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.String",
+              "list" : false
+            }
+          }, {
+            "name" : "firstName",
+            "fieldName" : "firstName",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.String",
+              "list" : false
+            }
+          }, {
+            "name" : "email",
+            "fieldName" : "email",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.String",
+              "list" : false
+            }
+          }, {
+            "name" : "extension",
+            "fieldName" : "extension",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.String",
+              "list" : false
+            }
+          }, {
+            "name" : "jobTitle",
+            "fieldName" : "jobTitle",
+            "optional" : false,
+            "fieldType" : {
+              "type" : "PRIMITIVE",
+              "typeRef" : "java.lang.String",
+              "list" : false
+            }
+          } ]
+        }
+      } ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="queryvar">
+        <![CDATA[
+        select * from User
+        ]]>
+    </sql-query>
+
+    <sql-query name="queryvar__count">
+        <![CDATA[
+        select count(*) from (select * from User) wmTempTable
+        ]]>
+    </sql-query>
+</hibernate-mapping>

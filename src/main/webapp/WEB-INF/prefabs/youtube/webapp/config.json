@@ -1,0 +1,36 @@
+{
+  "group" : "media",
+  "iconUrl" : "/resources/images/imagelists/prefab-icon.png",
+  "resources" : {
+    "styles" : [ ],
+    "scripts" : [ ]
+  },
+  "properties" : {
+    "youtubeurl" : {
+      "type" : "string",
+      "value" : "http://www.youtube.com/embed/N1umLw5I3As",
+      "bindable" : "in-out-bound",
+      "description" : ""
+    },
+    "width" : {
+      "type" : "string",
+      "value" : "640",
+      "description" : "",
+      "bindable" : ""
+    },
+    "height" : {
+      "type" : "string",
+      "value" : "360",
+      "description" : "",
+      "bindable" : ""
+    },
+    "allowfullscreen" : {
+      "type" : "boolean",
+      "value" : true,
+      "description" : "",
+      "bindable" : ""
+    }
+  },
+  "methods" : { },
+  "events" : { }
+}
