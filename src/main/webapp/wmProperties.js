@@ -1,14 +1,13 @@
 var _WM_APP_PROPERTIES = {
   "activeTheme" : "material",
-  "dateFormat" : "",
   "defaultLanguage" : "en",
-  "displayName" : "AllTypeServsforservdefs_9.0.0.1",
+  "displayName" : "AllTypeServsforservdefs_9_0_0_1",
   "homePage" : "Main",
   "name" : "AllTypeServsforservdefs_9_0_0_1",
   "platformType" : "WEB",
   "securityEnabled" : "true",
-  "supportedLanguages" : "en,de,kn,mr",
-  "timeFormat" : "",
+  "supportedLanguages" : "de,en,kn,mr",
   "type" : "APPLICATION",
-  "version" : "1.0"
+  "version" : "1.0",
+  "xsrf_header_name" : "X-WM-XSRF-TOKEN"
 };

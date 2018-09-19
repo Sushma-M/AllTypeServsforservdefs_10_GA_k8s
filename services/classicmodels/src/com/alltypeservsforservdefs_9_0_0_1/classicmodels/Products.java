@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -38,10 +42,8 @@ public class Products implements Serializable {
     private short quantityInStock;
     private BigDecimal buyPrice;
     private BigDecimal msrp;
-    private Productlines productlinesByProductLine;
-    private Productlines productlinesByProductLineRelation;
-    private List<Orderdetails> orderdetailsesForProductCode;
-    private List<Orderdetails> orderdetailsesForProductCodeRelation;
+    private Productlines productlines;
+    private List<Orderdetails> orderdetailses;
 
     @Id
     @Column(name = "`productCode`", nullable = false, length = 15)
@@ -127,50 +129,27 @@ public class Products implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "`productLine`", referencedColumnName = "`productLine`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`products_ibfk_1`"))
-    public Productlines getProductlinesByProductLine() {
-        return this.productlinesByProductLine;
+    @Fetch(FetchMode.JOIN)
+    public Productlines getProductlines() {
+        return this.productlines;
     }
 
-    public void setProductlinesByProductLine(Productlines productlinesByProductLine) {
-        if(productlinesByProductLine != null) {
-            this.productLine = productlinesByProductLine.getProductLine();
+    public void setProductlines(Productlines productlines) {
+        if(productlines != null) {
+            this.productLine = productlines.getProductLine();
         }
 
-        this.productlinesByProductLine = productlinesByProductLine;
+        this.productlines = productlines;
     }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "`productLine`", referencedColumnName = "`productLine`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`FKkr1ka4825eweis793i7hutwo3`"))
-    public Productlines getProductlinesByProductLineRelation() {
-        return this.productlinesByProductLineRelation;
-    }
-
-    public void setProductlinesByProductLineRelation(Productlines productlinesByProductLineRelation) {
-        if(productlinesByProductLineRelation != null) {
-            this.productLine = productlinesByProductLineRelation.getProductLine();
-        }
-
-        this.productlinesByProductLineRelation = productlinesByProductLineRelation;
-    }
-
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "productsByProductCode")
-    public List<Orderdetails> getOrderdetailsesForProductCode() {
-        return this.orderdetailsesForProductCode;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
+    public List<Orderdetails> getOrderdetailses() {
+        return this.orderdetailses;
     }
 
-    public void setOrderdetailsesForProductCode(List<Orderdetails> orderdetailsesForProductCode) {
-        this.orderdetailsesForProductCode = orderdetailsesForProductCode;
-    }
-
-    @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "productsByProductCodeRelation")
-    public List<Orderdetails> getOrderdetailsesForProductCodeRelation() {
-        return this.orderdetailsesForProductCodeRelation;
-    }
-
-    public void setOrderdetailsesForProductCodeRelation(List<Orderdetails> orderdetailsesForProductCodeRelation) {
-        this.orderdetailsesForProductCodeRelation = orderdetailsesForProductCodeRelation;
+    public void setOrderdetailses(List<Orderdetails> orderdetailses) {
+        this.orderdetailses = orderdetailses;
     }
 
     @Override
@@ -186,4 +165,3 @@ public class Products implements Serializable {
         return Objects.hash(getProductCode());
     }
 }
-

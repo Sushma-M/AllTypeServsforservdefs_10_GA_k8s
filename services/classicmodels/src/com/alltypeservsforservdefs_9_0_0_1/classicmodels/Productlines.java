@@ -7,13 +7,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -33,8 +35,7 @@ public class Productlines implements Serializable {
     @JsonProperty(access = Access.READ_ONLY)
     private byte[] image;
     private String textDescription;
-    private List<Products> productsesForProductLine;
-    private List<Products> productsesForProductLineRelation;
+    private List<Products> productses;
 
     @Id
     @Column(name = "`productLine`", nullable = false, length = 50)
@@ -83,23 +84,14 @@ public class Productlines implements Serializable {
     }
 
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "productlinesByProductLine")
-    public List<Products> getProductsesForProductLine() {
-        return this.productsesForProductLine;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productlines")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
+    public List<Products> getProductses() {
+        return this.productses;
     }
 
-    public void setProductsesForProductLine(List<Products> productsesForProductLine) {
-        this.productsesForProductLine = productsesForProductLine;
-    }
-
-    @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "productlinesByProductLineRelation")
-    public List<Products> getProductsesForProductLineRelation() {
-        return this.productsesForProductLineRelation;
-    }
-
-    public void setProductsesForProductLineRelation(List<Products> productsesForProductLineRelation) {
-        this.productsesForProductLineRelation = productsesForProductLineRelation;
+    public void setProductses(List<Products> productses) {
+        this.productses = productses;
     }
 
     @Override
@@ -115,4 +107,3 @@ public class Productlines implements Serializable {
         return Objects.hash(getProductLine());
     }
 }
-

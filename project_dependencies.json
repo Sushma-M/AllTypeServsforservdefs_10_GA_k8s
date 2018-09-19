@@ -1,13 +1,16 @@
 [ {
   "name" : "googlemaps",
-  "version" : "5.5",
-  "artifactType" : "PREFAB"
+  "version" : "6.2",
+  "artifactType" : "PREFAB",
+  "artifactDependencyList" : null
 }, {
   "name" : "youtube",
-  "version" : "2.2",
-  "artifactType" : "PREFAB"
+  "version" : "2.6",
+  "artifactType" : "PREFAB",
+  "artifactDependencyList" : null
 }, {
   "name" : "material",
-  "version" : "1.5",
-  "artifactType" : "THEME"
+  "version" : "3.3",
+  "artifactType" : "THEME",
+  "artifactDependencyList" : null
 } ]

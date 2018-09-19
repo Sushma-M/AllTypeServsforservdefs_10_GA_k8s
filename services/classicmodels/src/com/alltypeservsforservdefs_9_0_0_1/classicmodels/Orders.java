@@ -5,11 +5,9 @@ package com.alltypeservsforservdefs_9_0_0_1.classicmodels;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -37,9 +40,7 @@ public class Orders implements Serializable {
     private String status;
     private String comments;
     private int customerNumber;
-    private Timestamp timeColumn;
-    private Customers customersByCustomerNumber;
-    private Customers customersByCustomerNumberRelation;
+    private Customers customers;
     private List<Orderdetails> orderdetailses;
 
     @Id
@@ -106,45 +107,23 @@ public class Orders implements Serializable {
         this.customerNumber = customerNumber;
     }
 
-    @Column(name = "`timeColumn`", nullable = false)
-    public Timestamp getTimeColumn() {
-        return this.timeColumn;
-    }
-
-    public void setTimeColumn(Timestamp timeColumn) {
-        this.timeColumn = timeColumn;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "`customerNumber`", referencedColumnName = "`customerNumber`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`FK5hjbc0s8nrnbhbvoeg6636ff3`"))
-    public Customers getCustomersByCustomerNumber() {
-        return this.customersByCustomerNumber;
-    }
-
-    public void setCustomersByCustomerNumber(Customers customersByCustomerNumber) {
-        if(customersByCustomerNumber != null) {
-            this.customerNumber = customersByCustomerNumber.getCustomerNumber();
-        }
-
-        this.customersByCustomerNumber = customersByCustomerNumber;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "`customerNumber`", referencedColumnName = "`customerNumber`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`orders_ibfk_1`"))
-    public Customers getCustomersByCustomerNumberRelation() {
-        return this.customersByCustomerNumberRelation;
+    @Fetch(FetchMode.JOIN)
+    public Customers getCustomers() {
+        return this.customers;
     }
 
-    public void setCustomersByCustomerNumberRelation(Customers customersByCustomerNumberRelation) {
-        if(customersByCustomerNumberRelation != null) {
-            this.customerNumber = customersByCustomerNumberRelation.getCustomerNumber();
+    public void setCustomers(Customers customers) {
+        if(customers != null) {
+            this.customerNumber = customers.getCustomerNumber();
         }
 
-        this.customersByCustomerNumberRelation = customersByCustomerNumberRelation;
+        this.customers = customers;
     }
-
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "orders")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
     public List<Orderdetails> getOrderdetailses() {
         return this.orderdetailses;
     }
@@ -166,4 +145,3 @@ public class Orders implements Serializable {
         return Objects.hash(getOrderNumber());
     }
 }
-

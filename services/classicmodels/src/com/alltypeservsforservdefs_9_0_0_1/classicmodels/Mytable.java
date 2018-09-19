@@ -20,19 +20,9 @@ import javax.persistence.Table;
 @IdClass(MytableId.class)
 public class Mytable implements Serializable {
 
-    private Integer columnA;
     private Integer columnB;
+    private Integer columnA;
     private String columnC;
-
-    @Id
-    @Column(name = "`column_a`", nullable = false, scale = 0, precision = 10)
-    public Integer getColumnA() {
-        return this.columnA;
-    }
-
-    public void setColumnA(Integer columnA) {
-        this.columnA = columnA;
-    }
 
     @Id
     @Column(name = "`column_b`", nullable = false, scale = 0, precision = 10)
@@ -42,6 +32,16 @@ public class Mytable implements Serializable {
 
     public void setColumnB(Integer columnB) {
         this.columnB = columnB;
+    }
+
+    @Id
+    @Column(name = "`column_a`", nullable = false, scale = 0, precision = 10)
+    public Integer getColumnA() {
+        return this.columnA;
+    }
+
+    public void setColumnA(Integer columnA) {
+        this.columnA = columnA;
     }
 
     @Column(name = "`column_c`", nullable = true, length = 50)
@@ -59,14 +59,13 @@ public class Mytable implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Mytable)) return false;
         final Mytable mytable = (Mytable) o;
-        return Objects.equals(getColumnA(), mytable.getColumnA()) &&
-                Objects.equals(getColumnB(), mytable.getColumnB());
+        return Objects.equals(getColumnB(), mytable.getColumnB()) &&
+                Objects.equals(getColumnA(), mytable.getColumnA());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getColumnA(),
-                getColumnB());
+        return Objects.hash(getColumnB(),
+                getColumnA());
     }
 }
-

@@ -69,4 +69,3 @@ public class ArticleTags implements Serializable {
                 getTagId());
     }
 }
-

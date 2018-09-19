@@ -64,4 +64,3 @@ public class IdentityTest implements Serializable {
         return Objects.hash(getColumn3());
     }
 }
-

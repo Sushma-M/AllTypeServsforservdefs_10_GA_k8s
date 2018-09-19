@@ -8,16 +8,8 @@ import java.util.Objects;
 
 public class MytableId implements Serializable {
 
-    private Integer columnA;
     private Integer columnB;
-
-    public Integer getColumnA() {
-        return this.columnA;
-    }
-
-    public void setColumnA(Integer columnA) {
-        this.columnA = columnA;
-    }
+    private Integer columnA;
 
     public Integer getColumnB() {
         return this.columnB;
@@ -27,18 +19,26 @@ public class MytableId implements Serializable {
         this.columnB = columnB;
     }
 
+    public Integer getColumnA() {
+        return this.columnA;
+    }
+
+    public void setColumnA(Integer columnA) {
+        this.columnA = columnA;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Mytable)) return false;
         final Mytable mytable = (Mytable) o;
-        return Objects.equals(getColumnA(), mytable.getColumnA()) &&
-                Objects.equals(getColumnB(), mytable.getColumnB());
+        return Objects.equals(getColumnB(), mytable.getColumnB()) &&
+                Objects.equals(getColumnA(), mytable.getColumnA());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getColumnA(),
-                getColumnB());
+        return Objects.hash(getColumnB(),
+                getColumnA());
     }
 }

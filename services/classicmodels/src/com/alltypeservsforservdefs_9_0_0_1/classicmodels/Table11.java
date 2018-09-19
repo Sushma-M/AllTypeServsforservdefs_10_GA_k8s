@@ -57,4 +57,3 @@ public class Table11 implements Serializable {
         return Objects.hash(getId());
     }
 }
-

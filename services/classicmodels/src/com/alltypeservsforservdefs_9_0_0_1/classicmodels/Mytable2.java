@@ -20,19 +20,9 @@ import javax.persistence.Table;
 @IdClass(Mytable2Id.class)
 public class Mytable2 implements Serializable {
 
-    private Integer col1;
     private Integer id;
+    private Integer col1;
     private String col2;
-
-    @Id
-    @Column(name = "`col1`", nullable = false, scale = 0, precision = 10)
-    public Integer getCol1() {
-        return this.col1;
-    }
-
-    public void setCol1(Integer col1) {
-        this.col1 = col1;
-    }
 
     @Id
     @Column(name = "`ID`", nullable = false, scale = 0, precision = 10)
@@ -42,6 +32,16 @@ public class Mytable2 implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Id
+    @Column(name = "`col1`", nullable = false, scale = 0, precision = 10)
+    public Integer getCol1() {
+        return this.col1;
+    }
+
+    public void setCol1(Integer col1) {
+        this.col1 = col1;
     }
 
     @Column(name = "`col2`", nullable = true, length = 20)
@@ -59,14 +59,13 @@ public class Mytable2 implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Mytable2)) return false;
         final Mytable2 mytable2 = (Mytable2) o;
-        return Objects.equals(getCol1(), mytable2.getCol1()) &&
-                Objects.equals(getId(), mytable2.getId());
+        return Objects.equals(getId(), mytable2.getId()) &&
+                Objects.equals(getCol1(), mytable2.getCol1());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCol1(),
-                getId());
+        return Objects.hash(getId(),
+                getCol1());
     }
 }
-

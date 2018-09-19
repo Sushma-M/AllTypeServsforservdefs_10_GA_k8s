@@ -94,15 +94,15 @@
     "dataBinding" : [ {
       "target" : "sensor",
       "value" : "false",
-      "type" : "java.lang.String"
+      "type" : "string"
     }, {
       "target" : "origin",
-      "value" : "Toronto",
-      "type" : "java.lang.String"
+      "value" : "bind:Widgets.text3_1.datavalue",
+      "type" : "string"
     }, {
       "target" : "destination",
-      "value" : "Montreal",
-      "type" : "java.lang.String"
+      "value" : "bind:Widgets.text4.datavalue",
+      "type" : "string"
     } ],
     "type" : "googleapis.RootResponse",
     "service" : "googleapis",
@@ -114,8 +114,8 @@
     "isList" : false,
     "maxResults" : 20,
     "designMaxResults" : 10,
-    "startUpdate" : true,
-    "autoUpdate" : true,
+    "startUpdate" : false,
+    "autoUpdate" : false,
     "inFlightBehavior" : "executeLast",
     "transformationRequired" : false,
     "saveInPhonegap" : false,
@@ -867,11 +867,11 @@
       "watchOn" : "HrdbEmployeeData",
       "package" : "com.hrdb.Employee"
     } ],
-    "package" : "com.hrdb.Employee",
     "filterExpressions" : {
       "condition" : "AND",
       "rules" : [ ]
-    }
+    },
+    "package" : "com.hrdb.Employee"
   },
   "HrdbExecuteQueryvar" : {
     "_id" : "wm-HrdbExecuteQueryvar-wm.ServiceVariable-1477041978502",

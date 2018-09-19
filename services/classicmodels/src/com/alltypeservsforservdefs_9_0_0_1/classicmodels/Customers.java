@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -43,10 +47,8 @@ public class Customers implements Serializable {
     private Integer salesRepEmployeeNumber;
     private BigDecimal creditLimit;
     private Employees employees;
-    private List<Orders> ordersesForCustomerNumber;
-    private List<Orders> ordersesForCustomerNumberRelation;
-    private List<Payments> paymentsesForCustomerNumber;
-    private List<Payments> paymentsesForCustomerNumberRelation;
+    private List<Orders> orderses;
+    private List<Payments> paymentses;
 
     @Id
     @Column(name = "`customerNumber`", nullable = false, scale = 0, precision = 10)
@@ -168,6 +170,7 @@ public class Customers implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "`salesRepEmployeeNumber`", referencedColumnName = "`employeeNumber`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`customers_ibfk_1`"))
+    @Fetch(FetchMode.JOIN)
     public Employees getEmployees() {
         return this.employees;
     }
@@ -179,45 +182,26 @@ public class Customers implements Serializable {
 
         this.employees = employees;
     }
-
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customersByCustomerNumber")
-    public List<Orders> getOrdersesForCustomerNumber() {
-        return this.ordersesForCustomerNumber;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customers")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
+    public List<Orders> getOrderses() {
+        return this.orderses;
     }
 
-    public void setOrdersesForCustomerNumber(List<Orders> ordersesForCustomerNumber) {
-        this.ordersesForCustomerNumber = ordersesForCustomerNumber;
-    }
-
-    @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customersByCustomerNumberRelation")
-    public List<Orders> getOrdersesForCustomerNumberRelation() {
-        return this.ordersesForCustomerNumberRelation;
-    }
-
-    public void setOrdersesForCustomerNumberRelation(List<Orders> ordersesForCustomerNumberRelation) {
-        this.ordersesForCustomerNumberRelation = ordersesForCustomerNumberRelation;
+    public void setOrderses(List<Orders> orderses) {
+        this.orderses = orderses;
     }
 
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customersByCustomerNumber")
-    public List<Payments> getPaymentsesForCustomerNumber() {
-        return this.paymentsesForCustomerNumber;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customers")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
+    public List<Payments> getPaymentses() {
+        return this.paymentses;
     }
 
-    public void setPaymentsesForCustomerNumber(List<Payments> paymentsesForCustomerNumber) {
-        this.paymentsesForCustomerNumber = paymentsesForCustomerNumber;
-    }
-
-    @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customersByCustomerNumberRelation")
-    public List<Payments> getPaymentsesForCustomerNumberRelation() {
-        return this.paymentsesForCustomerNumberRelation;
-    }
-
-    public void setPaymentsesForCustomerNumberRelation(List<Payments> paymentsesForCustomerNumberRelation) {
-        this.paymentsesForCustomerNumberRelation = paymentsesForCustomerNumberRelation;
+    public void setPaymentses(List<Payments> paymentses) {
+        this.paymentses = paymentses;
     }
 
     @Override
@@ -233,4 +217,3 @@ public class Customers implements Serializable {
         return Objects.hash(getCustomerNumber());
     }
 }
-

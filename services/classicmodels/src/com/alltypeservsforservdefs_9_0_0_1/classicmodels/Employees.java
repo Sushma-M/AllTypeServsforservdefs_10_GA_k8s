@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -38,11 +42,9 @@ public class Employees implements Serializable {
     private Integer reportsTo;
     private String jobTitle;
     private Employees employeesByReportsTo;
-    private Employees employeesByReportsToRelation;
     private Offices offices;
     private List<Customers> customerses;
     private List<Employees> employeesesForReportsTo;
-    private List<Employees> employeesesForReportsToRelation;
 
     @Id
     @Column(name = "`employeeNumber`", nullable = false, scale = 0, precision = 10)
@@ -117,10 +119,11 @@ public class Employees implements Serializable {
         this.jobTitle = jobTitle;
     }
 
-    // ignoring self relation properties to avoid circular loops.
-    @JsonIgnoreProperties({"employeesByReportsTo", "employeesByReportsToRelation", "employeesesForReportsTo", "employeesesForReportsToRelation"})
+    // ignoring self relation properties to avoid circular loops & unwanted fields from the related entity.
+    @JsonIgnoreProperties({"employeesByReportsTo", "employeesesForReportsTo"})
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "`reportsTo`", referencedColumnName = "`employeeNumber`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`employees_ibfk_1`"))
+    @Fetch(FetchMode.JOIN)
     public Employees getEmployeesByReportsTo() {
         return this.employeesByReportsTo;
     }
@@ -133,24 +136,9 @@ public class Employees implements Serializable {
         this.employeesByReportsTo = employeesByReportsTo;
     }
 
-    // ignoring self relation properties to avoid circular loops.
-    @JsonIgnoreProperties({"employeesByReportsTo", "employeesByReportsToRelation", "employeesesForReportsTo", "employeesesForReportsToRelation"})
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "`reportsTo`", referencedColumnName = "`employeeNumber`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`FKsm67pthvu317mlk3dsqeci4sb`"))
-    public Employees getEmployeesByReportsToRelation() {
-        return this.employeesByReportsToRelation;
-    }
-
-    public void setEmployeesByReportsToRelation(Employees employeesByReportsToRelation) {
-        if(employeesByReportsToRelation != null) {
-            this.reportsTo = employeesByReportsToRelation.getEmployeeNumber();
-        }
-
-        this.employeesByReportsToRelation = employeesByReportsToRelation;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "`officeCode`", referencedColumnName = "`officeCode`", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "`FK_de1v7racr08568711kupqwv2h`"))
+    @Fetch(FetchMode.JOIN)
     public Offices getOffices() {
         return this.offices;
     }
@@ -162,9 +150,9 @@ public class Employees implements Serializable {
 
         this.offices = offices;
     }
-
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "employees")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employees")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
     public List<Customers> getCustomerses() {
         return this.customerses;
     }
@@ -173,28 +161,17 @@ public class Employees implements Serializable {
         this.customerses = customerses;
     }
 
-    // ignoring self relation properties to avoid circular loops.
-    @JsonIgnoreProperties({"employeesByReportsTo", "employeesByReportsToRelation", "employeesesForReportsTo", "employeesesForReportsToRelation"})
+    // ignoring self relation properties to avoid circular loops & unwanted fields from the related entity.
+    @JsonIgnoreProperties({"employeesByReportsTo", "employeesesForReportsTo"})
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "employeesByReportsTo")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employeesByReportsTo")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE})
     public List<Employees> getEmployeesesForReportsTo() {
         return this.employeesesForReportsTo;
     }
 
     public void setEmployeesesForReportsTo(List<Employees> employeesesForReportsTo) {
         this.employeesesForReportsTo = employeesesForReportsTo;
-    }
-
-    // ignoring self relation properties to avoid circular loops.
-    @JsonIgnoreProperties({"employeesByReportsTo", "employeesByReportsToRelation", "employeesesForReportsTo", "employeesesForReportsToRelation"})
-    @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "employeesByReportsToRelation")
-    public List<Employees> getEmployeesesForReportsToRelation() {
-        return this.employeesesForReportsToRelation;
-    }
-
-    public void setEmployeesesForReportsToRelation(List<Employees> employeesesForReportsToRelation) {
-        this.employeesesForReportsToRelation = employeesesForReportsToRelation;
     }
 
     @Override
@@ -210,4 +187,3 @@ public class Employees implements Serializable {
         return Objects.hash(getEmployeeNumber());
     }
 }
-

@@ -8,16 +8,8 @@ import java.util.Objects;
 
 public class PaymentsId implements Serializable {
 
-    private Integer customerNumber;
     private String checkNumber;
-
-    public Integer getCustomerNumber() {
-        return this.customerNumber;
-    }
-
-    public void setCustomerNumber(Integer customerNumber) {
-        this.customerNumber = customerNumber;
-    }
+    private Integer customerNumber;
 
     public String getCheckNumber() {
         return this.checkNumber;
@@ -27,18 +19,26 @@ public class PaymentsId implements Serializable {
         this.checkNumber = checkNumber;
     }
 
+    public Integer getCustomerNumber() {
+        return this.customerNumber;
+    }
+
+    public void setCustomerNumber(Integer customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Payments)) return false;
         final Payments payments = (Payments) o;
-        return Objects.equals(getCustomerNumber(), payments.getCustomerNumber()) &&
-                Objects.equals(getCheckNumber(), payments.getCheckNumber());
+        return Objects.equals(getCheckNumber(), payments.getCheckNumber()) &&
+                Objects.equals(getCustomerNumber(), payments.getCustomerNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCustomerNumber(),
-                getCheckNumber());
+        return Objects.hash(getCheckNumber(),
+                getCustomerNumber());
     }
 }
